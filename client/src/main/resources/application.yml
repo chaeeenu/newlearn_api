@@ -1,0 +1,33 @@
+# application.yml - 공통 설정
+spring:
+  profiles:
+    include: db     # db 설정은 여전히 별도 파일로 관리
+    active: local   # 기본 프로파일 설정 (필요에 따라 변경)
+  security:     # Spring Security OAuth2 공통 설정
+    oauth2:
+      client:
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+          github:
+            authorization-uri: https://github.com/login/oauth/authorize
+
+# 애플리케이션 공통 설정
+app:
+  site:
+    name: NEW-LEARN
+  role:
+    user:
+      default: USER
+  jwt:
+    secret-key: "ktdDo8niowL6r+ieYF2Lo4IU5Bi+Rqw/1OyaHzwGo6bU69W4HRJlRcUoT3ygnzm8igbBHDOvrIuX5cQtXL1hcg=="
+
+# 로깅 설정
+logging:
+  level:
+    com.newlearn: INFO
+    org.springframework.security: DEBUG
+    org.springframework.web: DEBUG

@@ -1,0 +1,6 @@
+rootProject.name = 'newlearn_api'
+include 'admin'
+include 'client'
+include 'auth'
+include 'service'
+include 'common'

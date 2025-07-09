@@ -1,0 +1,46 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: ${KAKAO_CLIENT_ID:}
+            client-secret: ${KAKAO_CLIENT_SECRET:}
+            redirect-uri: "https://dev.newlearn.com:9014/api/oauth2/kakao/kakao-login"
+            authorization-grant-type: authorization_code
+            scope: profile_nickname, profile_image, account_email
+            client-name: Kakao
+
+server:
+  port: 9014
+  ssl:
+    enabled: true
+    key-store: ${SSL_KEY_STORE:classpath:keystore.p12}
+    key-store-password: ${SSL_KEY_STORE_PASSWORD:}
+    key-store-type: PKCS12
+    key-alias: ${SSL_KEY_ALIAS:newlearn_ssl}
+
+app:
+  # 강제로그인 여부
+  is-login: false
+  # 발신자 이메일
+  from-mail: ${FROM_EMAIL:inulee0213@gmail.com}
+  # 사용자 도메인
+  user-domain: https://dev.newlearn.com:9014
+  file:
+    # 파일 업로드 물리 경로
+    upload-path: ${FILE_UPLOAD_PATH:/data/files/uploadfiles}
+  oauth2:
+    kakao:
+      client-id: ${KAKAO_CLIENT_ID:}
+      client-secret: ${KAKAO_CLIENT_SECRET:}
+      redirect-uri: "https://dev.newlearn.com:9014/api/oauth2/kakao/kakao-login"
+
+# 개발 서버용 로깅
+logging:
+  level:
+    com.newlearn: INFO
+    org.springframework.security: WARN
+    org.springframework.web: WARN
+  file:
+    name: /var/log/newlearn/application.log

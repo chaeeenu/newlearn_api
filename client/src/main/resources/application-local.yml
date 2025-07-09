@@ -1,0 +1,53 @@
+spring:
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: true
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: "b766e467b2186acf2443acdb024daf32"
+            client-secret: "xSEu3Ixm0ZLUMTnSBPEs4lGZMvGorohM"
+            redirect-uri: "https://localhost:9014/api/oauth2/kakao/kakao-login"
+            authorization-grant-type: authorization_code
+            scope: profile_nickname, profile_image, account_email
+            client-name: Kakao
+
+server:
+  port: 9014
+  ssl:
+    enabled: true
+    key-store: classpath:keystore.p12
+    key-store-password: cksdn0213!
+    key-store-type: PKCS12
+    key-alias: newlearn_ssl
+
+app:
+  # 강제로그인 여부
+  is-login: false
+  # 발신자 이메일
+  from-mail: inulee0213@gmail.com
+  # 사용자 도메인
+  user-domain: https://127.0.0.1:9014
+  file:
+    # 파일 업로드 물리 경로
+    upload-path: D:\newLearn_proejct\uploadfiles
+  oauth2:
+    kakao:
+      client-id: "b766e467b2186acf2443acdb024daf32"
+      client-secret: "xSEu3Ixm0ZLUMTnSBPEs4lGZMvGorohM"
+      redirect-uri: "https://localhost:9014/api/oauth2/kakao/kakao-login"
+    github:
+      client-id: "Ov23liTxfG9BqaI75Onq"
+      client-secret: "1095e0749770a1bad5521f2c60eb90b21f4ca051"
+      redirect-uri: "https://localhost:9014/api/oauth2/github/github-login"
+
+# 로컬 개발용 로깅
+logging:
+  level:
+    com.newlearn: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.web: DEBUG

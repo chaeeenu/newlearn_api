@@ -1,0 +1,49 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: ${KAKAO_CLIENT_ID}
+            client-secret: ${KAKAO_CLIENT_SECRET}
+            redirect-uri: "https://www.newlearn.com:9014/api/oauth2/kakao/kakao-login"
+            authorization-grant-type: authorization_code
+            scope: profile_nickname, profile_image, account_email
+            client-name: Kakao
+
+server:
+  port: ${SERVER_PORT:9014}
+  ssl:
+    enabled: true
+    key-store: ${SSL_KEY_STORE}
+    key-store-password: ${SSL_KEY_STORE_PASSWORD}
+    key-store-type: PKCS12
+    key-alias: ${SSL_KEY_ALIAS}
+
+app:
+  # 강제로그인 여부
+  is-login: ${IS_LOGIN_REQUIRED:true}
+  # 발신자 이메일
+  from-mail: ${FROM_EMAIL}
+  # 사용자 도메인
+  user-domain: https://www.newlearn.com:9014
+  file:
+    # 파일 업로드 물리 경로
+    upload-path: ${FILE_UPLOAD_PATH:/data/files/uploadfiles}
+  oauth2:
+    kakao:
+      client-id: ${KAKAO_CLIENT_ID}
+      client-secret: ${KAKAO_CLIENT_SECRET}
+      redirect-uri: "https://www.newlearn.com:9014/api/oauth2/kakao/kakao-login"
+
+# 운영 환경용 로깅
+logging:
+  level:
+    com.newlearn: WARN
+    org.springframework.security: ERROR
+    org.springframework.web: ERROR
+    org.hibernate.SQL: ERROR
+  file:
+    name: /var/log/newlearn/application.log
+  pattern:
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"

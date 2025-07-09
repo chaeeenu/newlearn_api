@@ -1,0 +1,98 @@
+plugins {
+    id 'java'
+    id 'war'
+    id 'org.springframework.boot' version '3.5.3'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+allprojects {
+    apply(plugin: 'java-library')
+
+    group = 'com.newlearn'
+    version = '0.0.1-SNAPSHOT'
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(17)
+        }
+    }
+
+    repositories {
+        mavenCentral()
+    }
+}
+
+subprojects {
+    apply(plugin: 'war')
+    apply(plugin: 'org.springframework.boot')
+    apply(plugin: 'io.spring.dependency-management')
+
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
+
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-aop'
+        implementation 'org.springframework.boot:spring-boot-starter-security'
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        implementation 'org.springframework.boot:spring-boot-starter-webflux'
+        implementation 'org.springdoc:springdoc-openapi-ui:1.8.0'
+        implementation 'org.apache.commons:commons-lang3'
+        compileOnly 'org.projectlombok:lombok'
+        developmentOnly 'org.springframework.boot:spring-boot-devtools'
+        annotationProcessor 'org.projectlombok:lombok'
+        providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        testImplementation 'org.springframework.security:spring-security-test'
+        testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    }
+
+    bootWar.enabled = false
+    war.enabled = true
+}
+
+project(":admin") {
+    dependencies {
+        implementation project(":service")
+    }
+}
+
+project(":client") {
+    dependencies {
+        implementation project(":common")
+        implementation project(":service")
+        implementation project(":auth")
+
+    }
+}
+
+project(":service") {
+    dependencies {
+        implementation project(":common")
+
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+        implementation 'org.springframework.boot:spring-boot-starter-validation'
+        runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+    }
+}
+
+project(":common") {
+    dependencies {
+        api 'io.jsonwebtoken:jjwt-api:0.11.5'
+        runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+        runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+    }
+}
+
+project(":auth") {
+    dependencies {
+        implementation project(":common")
+        implementation project(":service")
+
+        implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    }
+}
